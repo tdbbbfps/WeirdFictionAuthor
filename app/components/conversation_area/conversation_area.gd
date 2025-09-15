@@ -19,6 +19,8 @@ func _ready() -> void:
 	request = HTTPRequest.new()
 	get_tree().current_scene.add_child(request)
 	request.request_completed.connect(_on_request_completed)
+	
+	get_ollama_models()
 
 func create_message(message : String, sender : String):
 	var new_message = message_bubble.instantiate() as MessageBubble
@@ -69,6 +71,15 @@ func _on_input_edit_focus_entered() -> void:
 func _on_input_edit_focus_exited() -> void:
 	is_editing = false
 
-func simulate_response():
-	var response = "Here's the article..."
-	create_message(response, "system")
+##TODO Get ollama models by sending request to backend.
+# Get ollama models using command line
+func get_ollama_models():
+	var output_array : Array = []
+	var exit_code = OS.execute("cmd.exe", ["/C", "ollama list"], output_array, true)
+	# Set model list if successfully get ollama's models.
+	if (exit_code == 0):
+		for line in output_array:
+			print(typeof(line))
+			print(line)
+	else:
+		printerr("Command failed with exit code: ", exit_code)
