@@ -1,0 +1,62 @@
+[gd_scene load_steps=5 format=3 uid="uid://cwvntenf1axvc"]
+
+[ext_resource type="Script" uid="uid://pymx42rmiqu6" path="res://app/components/conversation_area/message_bubble/message_bubble.gd" id="1_4uk7n"]
+[ext_resource type="Texture2D" uid="uid://b8lnuhf8jvl3w" path="res://assets/images/Micro Icon Pack/Video/11. Loop.png" id="1_wwf6p"]
+[ext_resource type="Texture2D" uid="uid://dbv8vpedp6ohv" path="res://assets/images/Micro Icon Pack/Paint/1. Pen.png" id="2_4uk7n"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4uk7n"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.194349, 0.194349, 0.194349, 1)
+
+[node name="MessageBubble" type="VBoxContainer" node_paths=PackedStringArray("timestamp_label", "message_container", "message_label", "regenerate_btn", "edit_btn")]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 67.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+script = ExtResource("1_4uk7n")
+timestamp_label = NodePath("MessageContainer/VBoxContainer/TimestampLabel")
+message_container = NodePath("MessageContainer")
+message_label = NodePath("MessageContainer/VBoxContainer/MessageLabel")
+regenerate_btn = NodePath("MessageContainer/VBoxContainer/WidgetContainer/RegenerateBtn")
+edit_btn = NodePath("MessageContainer/VBoxContainer/WidgetContainer/EditBtn")
+
+[node name="MessageContainer" type="PanelContainer" parent="."]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4uk7n")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MessageContainer"]
+layout_mode = 2
+
+[node name="WidgetContainer" type="HBoxContainer" parent="MessageContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+
+[node name="RegenerateBtn" type="Button" parent="MessageContainer/VBoxContainer/WidgetContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+icon = ExtResource("1_wwf6p")
+icon_alignment = 1
+expand_icon = true
+
+[node name="EditBtn" type="Button" parent="MessageContainer/VBoxContainer/WidgetContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+icon = ExtResource("2_4uk7n")
+icon_alignment = 1
+expand_icon = true
+
+[node name="MessageLabel" type="RichTextLabel" parent="MessageContainer/VBoxContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "Content"
+fit_content = true
+
+[node name="TimestampLabel" type="Label" parent="MessageContainer/VBoxContainer"]
+layout_mode = 2
+text = "2025-1-1 00:00"
+vertical_alignment = 1

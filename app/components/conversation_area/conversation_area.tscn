@@ -1,0 +1,61 @@
+[gd_scene load_steps=2 format=3 uid="uid://ct8g6dskflhox"]
+
+[ext_resource type="Script" uid="uid://xsy4hwy011lq" path="res://app/components/conversation_area/conversation_area.gd" id="1_dk4eb"]
+
+[node name="ConversationArea" type="Control" node_paths=PackedStringArray("message_container", "input_edit", "send_btn")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_dk4eb")
+message_container = NodePath("VBoxContainer/ScrollContainer/MessageContainer")
+input_edit = NodePath("VBoxContainer/InputContainer/InputEdit")
+send_btn = NodePath("VBoxContainer/InputContainer/SendBtn")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="MessageContainer" type="VBoxContainer" parent="VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="InputContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="InputEdit" type="TextEdit" parent="VBoxContainer/InputContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "請輸入訊息..."
+emoji_menu_enabled = false
+virtual_keyboard_enabled = false
+middle_mouse_paste_enabled = false
+wrap_mode = 1
+scroll_fit_content_height = true
+
+[node name="SendBtn" type="Button" parent="VBoxContainer/InputContainer"]
+layout_mode = 2
+text = "送出"
+
+[connection signal="focus_entered" from="VBoxContainer/InputContainer" to="." method="_on_input_container_focus_entered"]
+[connection signal="focus_exited" from="VBoxContainer/InputContainer" to="." method="_on_input_container_focus_exited"]
+[connection signal="focus_entered" from="VBoxContainer/InputContainer/InputEdit" to="." method="_on_input_edit_focus_entered"]
+[connection signal="focus_exited" from="VBoxContainer/InputContainer/InputEdit" to="." method="_on_input_edit_focus_exited"]
+[connection signal="gui_input" from="VBoxContainer/InputContainer/InputEdit" to="." method="_on_input_edit_gui_input"]
+[connection signal="text_changed" from="VBoxContainer/InputContainer/InputEdit" to="." method="_on_input_edit_text_changed"]
+[connection signal="pressed" from="VBoxContainer/InputContainer/SendBtn" to="." method="_on_send_btn_pressed"]
