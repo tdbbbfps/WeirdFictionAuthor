@@ -1,0 +1,38 @@
+[gd_scene load_steps=2 format=3 uid="uid://bhe86h727wbmn"]
+
+[ext_resource type="Script" uid="uid://cxv5v8o7kunpk" path="res://app/components/system_prompt_editor/system_prompt_editor.gd" id="1_ed53b"]
+
+[node name="SystemPromptEditor" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ed53b")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PromptEdit" type="TextEdit" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="UpdateBtn" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+text = "更新"
+
+[node name="UpdateSystemPromptRequest" type="HTTPRequest" parent="."]
+
+[node name="GetSystemPromptRequest" type="HTTPRequest" parent="."]
+
+[connection signal="text_changed" from="VBoxContainer/PromptEdit" to="." method="_on_prompt_edit_text_changed"]
+[connection signal="pressed" from="VBoxContainer/UpdateBtn" to="." method="_on_update_btn_pressed"]
+[connection signal="request_completed" from="GetSystemPromptRequest" to="." method="_on_get_system_prompt_request_request_completed"]

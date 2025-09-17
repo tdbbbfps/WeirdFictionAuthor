@@ -26,19 +26,22 @@ func create_message(message : String, sender : String):
 	send_request(message)
 
 @export var generate_request : HTTPRequest
-# Send http request to backend.
+## Send chat request to backend.
 func send_request(message : String):
 	var headers = ["Content-Type: application/json"]
-	var data = {"prompt": message}
+	var data = {
+		"prompt": message,
+		"model": model_btn.get_item_text(model_btn.selected)
+		}
 	var json = JSON.stringify(data)
 	generate_request.request("%s/generate" %url, headers, HTTPClient.METHOD_POST, json)
-
+## Create message when successfully recieved response.
 func _on_generate_request_request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
 	if (response_code == 200):
 		var json = JSON.new()
 		var parse_result = json.parse(body.get_string_from_utf8())
 		if (parse_result == OK):
-			prints(parse_result)
+			create_message(parse_result["response"], "system")
 
 func send_message() -> void:
 	create_message(input_edit.text, "user")
@@ -69,13 +72,20 @@ func _on_input_edit_focus_exited() -> void:
 	is_editing = false
 
 @export var model_request : HTTPRequest
-# Get ollama models using command line
+## Get local ollama models by sending request to backend.
 func get_ollama_models():
 	model_request.request("%s/models", [],HTTPClient.METHOD_GET)
 
+## Add items to model_btn.
 func _on_model_request_request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
 	if (response_code == 200):
 		var json = JSON.new()
 		var parse_result = json.parse(body.get_string_from_utf8())
 		if (parse_result == OK):
-			prints(parse_result)
+			var models = parse_result["models"]
+			for model in models:
+				model_btn.add_item("model")
+		else:
+			printerr("Can't parse data.")
+	else:
+		printerr("Can't get ollama models due to %d" %response_code)

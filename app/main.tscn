@@ -1,5 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://dfvog21klppdu"]
+[gd_scene load_steps=3 format=3 uid="uid://dfvog21klppdu"]
 
+[ext_resource type="PackedScene" uid="uid://bhe86h727wbmn" path="res://app/components/system_prompt_editor/system_prompt_editor.tscn" id="1_s58fy"]
 [ext_resource type="PackedScene" uid="uid://ct8g6dskflhox" path="res://app/components/conversation_area/conversation_area.tscn" id="1_yblnd"]
 
 [node name="Main" type="Control"]
@@ -10,5 +11,16 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="BasicChat" parent="." instance=ExtResource("1_yblnd")]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SystemPromptEditor" parent="HBoxContainer" instance=ExtResource("1_s58fy")]
+layout_mode = 2
+
+[node name="BasicChat" parent="HBoxContainer" instance=ExtResource("1_yblnd")]
+layout_mode = 2
